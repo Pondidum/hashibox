@@ -2,6 +2,7 @@
 
 NOMAD_VERSION=0.8.7
 CONSUL_VERSION=1.4.3
+VAULT_VERSION=1.1.0
 
 OUTPUT_DIR="./binaries"
 
@@ -14,6 +15,9 @@ curl -sSL https://releases.hashicorp.com/nomad/${NOMAD_VERSION}/nomad_${NOMAD_VE
 
 echo "fetching Consul..."
 curl -sSL https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip -o consul.zip
+
+echo "fetching Vault..."
+curl -sSL https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_amd64.zip -o vault.zip
 
 echo "fetching containerd..."
 curl -sSL https://download.docker.com/linux/ubuntu/dists/xenial/pool/stable/amd64/containerd.io_1.2.4-1_amd64.deb -O
@@ -29,5 +33,8 @@ do
     echo "fetching ${bin}..."
     curl -sSL https://pkg.cfssl.org/R1.2/${bin}_linux-amd64 > ${bin}
 done
+
+echo "fetching dotnet core..."
+curl -sSL https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O
 
 popd
