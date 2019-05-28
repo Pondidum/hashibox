@@ -3,15 +3,18 @@
 # Update apt and get dependencies
 DEBIAN_FRONTEND=noninteractive
 
+echo iptables-persistent iptables-persistent/autosave_v4 boolean false | sudo debconf-set-selections
+echo iptables-persistent iptables-persistent/autosave_v6 boolean false | sudo debconf-set-selections
+
 sudo apt-get update
-sudo apt-get install -y \
+sudo apt-get install -yq \
     unzip \
     curl \
     vim \
     apt-transport-https \
     ca-certificates \
-    software-properties-common
-
+    software-properties-common \
+    iptables-persistent
 
 # Download Nomad
 NOMAD_VERSION=0.8.7
@@ -27,6 +30,9 @@ echo "Installing Consul..."
 unzip /tmp/consul.zip
 sudo install consul /usr/bin/consul
 
+sudo mkdir -p /etc/consul.d
+sudo chmod a+w /etc/consul.d
+
 echo "Installing Vault..."
 unzip /tmp/vault.zip
 sudo install vault /usr/bin/vault
@@ -39,6 +45,18 @@ sudo mkdir -p /etc/nomad.d
 sudo chmod a+w /etc/nomad.d
 
 nomad -autocomplete-install
+
+
+echo "Configuring DNS for .consul domain..."
+
+sudo sed -i 's/#DNS=/DNS=127.0.0.1/g; s/#Domains=/Domains=~consul/g' /etc/systemd/resolved.conf
+
+echo "nameserver 127.0.0.1" | sudo tee /etc/resolvconf/resolv.conf.d/head
+
+sudo iptables -t nat -A OUTPUT -d localhost -p udp -m udp --dport 53 -j REDIRECT --to-ports 8600
+sudo iptables -t nat -A OUTPUT -d localhost -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 8600
+
+sudo netfilter-persistent save
 
 
 
