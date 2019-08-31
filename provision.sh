@@ -14,7 +14,8 @@ sudo apt-get install -yq \
     apt-transport-https \
     ca-certificates \
     software-properties-common \
-    iptables-persistent
+    iptables-persistent \
+    jq
 
 # Download Nomad
 NOMAD_VERSION=0.8.7
