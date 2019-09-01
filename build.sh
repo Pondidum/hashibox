@@ -9,6 +9,6 @@ rm -f $box_name
 vagrant up $@
 
 vagrant package --output $box_name
-vagrant box add --force --name pondidum/hashibox $box_name
+vagrant box add --force --name local/hashibox $box_name
 
 vagrant destroy -f
