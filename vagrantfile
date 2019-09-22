@@ -9,6 +9,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider "hyperv" do |h, override|
     h.memory = "1024"
     override.vm.network "public_network", bridge: "Default Switch"
+    config.vm.synced_folder ".", "/vagrant", smb_username: ENV['VAGRANT_SMB_USER'], smb_password: ENV['VAGRANT_SMB_PASS']
   end
 
   config.vm.provider "virtualbox" do |v, override|
