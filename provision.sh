@@ -3,9 +3,6 @@
 # Update apt and get dependencies
 DEBIAN_FRONTEND=noninteractive
 
-echo iptables-persistent iptables-persistent/autosave_v4 boolean false | sudo debconf-set-selections
-echo iptables-persistent iptables-persistent/autosave_v6 boolean false | sudo debconf-set-selections
-
 sudo apt-get update
 sudo apt-get install -yq \
     unzip \
@@ -14,12 +11,8 @@ sudo apt-get install -yq \
     apt-transport-https \
     ca-certificates \
     software-properties-common \
-    iptables-persistent \
+    dnsmasq \
     jq
-
-# Download Nomad
-NOMAD_VERSION=0.8.7
-CONSUL_VERSION=1.4.3
 
 cd /tmp/
 
@@ -48,17 +41,25 @@ sudo chmod a+w /etc/nomad.d
 nomad -autocomplete-install
 
 
-echo "Configuring DNS for .consul domain..."
+echo "Configuring DNS..."
 
-sudo sed -i 's/#DNS=/DNS=127.0.0.1/g; s/#Domains=/Domains=~consul/g' /etc/systemd/resolved.conf
+echo "DNSStubListener=no" | sudo tee --append /etc/systemd/resolved.conf
+sudo systemctl restart systemd-resolved
 
-echo "nameserver 127.0.0.1" | sudo tee /etc/resolvconf/resolv.conf.d/head
+sudo rm /etc/resolv.conf
+echo "nameserver 127.0.0.1" | sudo tee /etc/resolv.conf
 
-sudo iptables -t nat -A OUTPUT -d localhost -p udp -m udp --dport 53 -j REDIRECT --to-ports 8600
-sudo iptables -t nat -A OUTPUT -d localhost -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 8600
+(
+cat <<-EOF
+port=53
+resolv-file=/var/run/dnsmasq/resolv.conf
+bind-interfaces
+listen-address=127.0.0.1
+server=/consul/127.0.0.1#8600
+EOF
+) | sudo tee /etc/dnsmasq.d/default
 
-sudo netfilter-persistent save
-
+sudo systemctl restart dnsmasq
 
 
 echo "Installing Docker..."
