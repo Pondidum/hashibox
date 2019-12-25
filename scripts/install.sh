@@ -4,5 +4,6 @@ apk update
 apk add \
   git \
   musl-dev \
-  zip
+  zip \
+  libcap
 

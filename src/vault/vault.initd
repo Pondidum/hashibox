@@ -1,0 +1,33 @@
+#!/sbin/openrc-run
+name="Vault server"
+description="Vault is a tool for securely accessing secrets"
+description_reload="Reload configuration"
+
+extra_started_commands="reload"
+
+service="vault" # $RC_SVCNAME
+command="/usr/local/bin/${service}"
+command_args="${vault_opts}"
+command_user="${service}:${service}"
+
+supervisor=supervise-daemon
+output_log="/var/log/${service}.log"
+error_log="/var/log/${service}.log"
+respawn_max=0
+respawn_delay=10
+
+depend() {
+	need net
+	after firewall
+}
+
+start_pre() {
+	checkpath -f -m 0644 -o "$command_user" "$output_log" "$error_log"
+}
+
+reload() {
+	start_pre \
+		&& ebegin "Reloading $service configuration" \
+		&& $supervisor "$service" --signal HUP
+	eend $?
+}

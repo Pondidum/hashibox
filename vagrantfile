@@ -15,5 +15,6 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", path: "./scripts/install.sh"
   config.vm.provision "shell", path: "./scripts/consul.sh"
+  config.vm.provision "shell", path: "./scripts/vault.sh"
 
 end
