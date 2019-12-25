@@ -1,0 +1,49 @@
+#!/sbin/openrc-run
+description="A tool for service discovery, monitoring and configuration"
+description_checkconfig="Verify configuration files"
+description_healthcheck="Check health status"
+description_reload="Reload configuration"
+
+extra_commands="checkconfig"
+extra_started_commands="healthcheck reload"
+
+service="consul" # $RC_SVCNAME
+command="/usr/local/bin/$service"
+command_args="$consul_opts"
+command_user="$service:$service"
+
+supervisor=supervise-daemon
+pidfile="/run/$service.pid"
+output_log="/var/log/$service.log"
+error_log="/var/log/$service.log"
+umask=027
+respawn_max=0
+respawn_delay=10
+healthcheck_timer=60
+
+depend() {
+	need net
+	after firewall
+}
+
+checkconfig() {
+	ebegin "Checking /etc/consul"
+	consul validate /etc/consul
+	eend $?
+}
+
+start_pre() {
+	checkconfig
+	checkpath -f -m 0640 -o "$command_user" "$output_log" "$error_log"
+}
+
+healthcheck() {
+	$command info > /dev/null 2>&1
+}
+
+reload() {
+	start_pre \
+		&& ebegin "Reloading $service configuration" \
+		&& supervise-daemon "$service" --signal HUP --pidfile "$pidfile"
+	eend $?
+}

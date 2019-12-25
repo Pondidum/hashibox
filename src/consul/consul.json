@@ -1,0 +1,12 @@
+{
+  "data_dir": "/var/consul",
+  "client_addr": "127.0.0.1 {{ GetInterfaceIP \"eth0\" }}",
+  "bind_addr": "{{ GetInterfaceIP \"eth0\" }}",
+  "ui": true,
+  "server": true,
+  "bootstrap_expect": 1,
+  "retry_join": [],
+  "connect": {
+    "enabled": true
+  }
+}

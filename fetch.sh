@@ -1,10 +1,10 @@
 #! /bin/bash
 
 NOMAD_VERSION=0.9.5
-CONSUL_VERSION=1.6.0
-VAULT_VERSION=1.2.2
+CONSUL_VERSION=1.6.2
+VAULT_VERSION=1.3.1
 
-OUTPUT_DIR="./binaries"
+OUTPUT_DIR="./src/binaries"
 
 mkdir -p $OUTPUT_DIR
 

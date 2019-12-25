@@ -13,3 +13,6 @@ A [Vagrant](https://www.vagrantup.com) base box for all my Hashicorp stack demos
 ./build.sh
 ```
 
+## Usage
+
+* enable consul: `sudo ln -s /etc/consul/consul.initd /etc/init.d/consul`
