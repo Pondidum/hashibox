@@ -6,4 +6,3 @@ apk add \
   musl-dev \
   zip \
   libcap
-
