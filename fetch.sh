@@ -1,6 +1,5 @@
 #! /bin/bash
 
-NOMAD_VERSION=0.9.5
 CONSUL_VERSION=1.6.2
 VAULT_VERSION=1.3.1
 
@@ -9,9 +8,6 @@ OUTPUT_DIR="./src/binaries"
 mkdir -p $OUTPUT_DIR
 
 pushd $OUTPUT_DIR
-
-echo "fetching Nomad..."
-curl -sSL https://releases.hashicorp.com/nomad/${NOMAD_VERSION}/nomad_${NOMAD_VERSION}_linux_amd64.zip -o nomad.zip
 
 echo "fetching Consul..."
 curl -sSL https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip -o consul.zip

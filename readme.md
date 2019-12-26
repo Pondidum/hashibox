@@ -17,3 +17,4 @@ A [Vagrant](https://www.vagrantup.com) base box for all my Hashicorp stack demos
 
 * enable consul: `sudo ln -s /etc/consul/consul.initd /etc/init.d/consul`
 * enable vault: `sudo ln -s /etc/vault/vault.initd /etc/init.d/vault`
+* enable nomad: `sudo ln -s /etc/nomad/nomad.initd /etc/init.d/nomad`
