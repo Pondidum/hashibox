@@ -1,0 +1,9 @@
+#!/bin/sh
+
+(
+cat <<-EOF
+forward-zone:
+    name: "."
+    forward-addr: ${new_domain_name_servers}
+EOF
+) | sudo tee /etc/unbound/forward.conf

@@ -5,4 +5,5 @@ apk add \
   git \
   musl-dev \
   zip \
-  libcap
+  libcap \
+  bind-tools
