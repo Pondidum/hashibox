@@ -14,5 +14,5 @@ src=/vagrant/nomad
 mkdir -p /etc/nomad
 
 cp $src/nomad.hcl /etc/nomad/nomad.hcl
-cp $src/nomad.initd /etc/nomad/nomad.initd
+cp $src/nomad.initd /etc/init.d/nomad
 cp $src/nomad.confd /etc/conf.d/nomad

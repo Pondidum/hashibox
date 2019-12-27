@@ -9,7 +9,7 @@ adduser -S -D -h /var/vault -s /sbin/nologin -G vault -g vault vault 2>/dev/null
 mkdir -p /etc/vault
 
 cp $src/vault.hcl /etc/vault/vault.hcl
-cp $src/vault.initd /etc/vault/vault.initd
+cp $src/vault.initd /etc/init.d/vault
 cp $src/vault.confd /etc/conf.d/vault
 
 chown -R vault:vault /etc/vault

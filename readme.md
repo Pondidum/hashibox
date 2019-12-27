@@ -15,6 +15,5 @@ A [Vagrant](https://www.vagrantup.com) base box for all my Hashicorp stack demos
 
 ## Usage
 
-* enable consul: `sudo ln -s /etc/consul/consul.initd /etc/init.d/consul`
-* enable vault: `sudo ln -s /etc/vault/vault.initd /etc/init.d/vault`
-* enable nomad: `sudo ln -s /etc/nomad/nomad.initd /etc/init.d/nomad`
+Consul, Vault and Nomad can be started with `rc-service`: `sudo rc-service <name> start`
+The can also be set to auto start on boot: `sudo rc-update add <name>`
