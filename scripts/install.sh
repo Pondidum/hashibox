@@ -7,4 +7,8 @@ apk add \
   zip \
   libcap \
   bind-tools \
-  tmux
+  tmux \
+  jq
+
+install /vagrant/binaries/yq /usr/local/bin
+chmod +x /usr/local/bin/yq
