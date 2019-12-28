@@ -20,4 +20,5 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", path: "./scripts/nomad.sh"
   config.vm.provision "shell", path: "./scripts/tools.sh"
 
+  config.vm.provision "shell", path: "./scripts/minimize.sh"
 end
