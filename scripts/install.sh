@@ -6,4 +6,5 @@ apk add \
   musl-dev \
   zip \
   libcap \
-  bind-tools
+  bind-tools \
+  tmux
