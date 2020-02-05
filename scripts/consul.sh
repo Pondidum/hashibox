@@ -18,7 +18,9 @@ unzip $binaries/consul.zip -d /tmp
 install /tmp/consul /usr/local/bin
 
 apk add unbound
-cp $src/unbound.conf /etc/unbound/unbound.conf
+docker_ip=$(ip addr show docker0 | awk '$1 == "inet" {gsub(/\/.*$/, "", $2); print $2}')
+sed "s/docker0/$docker_ip/g" "$src/unbound.conf" > /etc/unbound/unbound.conf
+
 rc-update add unbound
 
 apk add dhclient
