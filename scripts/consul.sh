@@ -8,6 +8,7 @@ adduser -S -D -h /var/consul -s /sbin/nologin -G consul -g consul consul 2>/dev/
 
 mkdir -p /etc/consul
 
+cp $src/wait-for-cluster /etc/consul/wait-for-cluster
 cp $src/consul.json /etc/consul/consul.json
 cp $src/consul.initd /etc/init.d/consul
 cp $src/consul.confd /etc/conf.d/consul

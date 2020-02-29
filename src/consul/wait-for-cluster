@@ -1,0 +1,26 @@
+#!/bin/bash
+
+timeout=${1:-10}
+
+echo "==> Waiting for a Consul Cluster to form"
+echo "    Timeout: $timeout"
+
+start=$(date +%s)
+
+while [ "$(consul operator raft list-peers 2>/dev/null | grep -c leader)" != "1" ]; do
+  sleep 1
+
+  now=$(date +%s)
+  elapsed=$(( now - start ))
+
+  if [ $elapsed -ge $timeout ]; then
+    echo "Cluster DIDN'T form after $timeout seconds" >&2
+    exit 1
+  fi
+
+done
+
+now=$(date +%s)
+elapsed=$(( now - start ))
+
+echo "==> Cluster formed after $elapsed seconds"
