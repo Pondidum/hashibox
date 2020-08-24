@@ -3,6 +3,7 @@
 echo "==> Installing Nomad"
 
 echo "https://sjc.edge.kernel.org/alpine/edge/testing" | tee -a /etc/apk/repositories
+echo "https://sjc.edge.kernel.org/alpine/edge/community" | tee -a /etc/apk/repositories
 apk update
 apk add nomad ip6tables
 
